@@ -171,8 +171,6 @@
 //     logits.iter().find(|p| p.val >= plimit).unwrap().tok
 // }
 
-// src/operators.rs
-
 use crate::tensor::Tensor;
 
 // get (row) vectors from a 2D table given a list of indices
@@ -246,7 +244,27 @@ pub fn masked_softmax(y: &mut Tensor<f32>) {
 }
 
 pub fn rms_norm(y: &mut Tensor<f32>, x: &Tensor<f32>, w: &Tensor<f32>, epsilon: f32) {
-    todo!("实现 rms_norm，计算前做一些必要的检查会帮助你后续调试")
+    let shape = x.shape();
+    assert_eq!(shape, y.shape());
+    let n = shape.iter().product::<usize>();
+    let d = shape.last().copied().unwrap();
+
+    let x_data = x.data();
+    let w_data = w.data();
+    let y_data = unsafe { y.data_mut() };
+
+    for i in 0..(n / d) {
+        let start = i * d;
+        let end = start + d;
+        let mut norm = 0.0;
+        for j in start..end {
+            norm += x_data[j] * x_data[j];
+        }
+        norm = (norm / d as f32 + epsilon).sqrt();
+        for j in 0..d {
+            y_data[start + j] = (x_data[start + j] / norm) * w_data[j];
+        }
+    }
 }
 
 // y = sigmoid(x) * x * y
@@ -267,7 +285,24 @@ pub fn silu(y: &mut Tensor<f32>, x: &Tensor<f32>) {
 // C = beta * C + alpha * A @ B^T
 // hint: You don't need to do an explicit transpose of B
 pub fn matmul_transb(c: &mut Tensor<f32>, beta: f32, a: &Tensor<f32>, b: &Tensor<f32>, alpha: f32) {
-    todo!("实现 matmul_transb，计算前做一些必要的检查会帮助你后续调试");
+    let (m, k) = (a.shape()[0], a.shape()[1]);
+    let (n, k2) = (b.shape()[0], b.shape()[1]);
+    assert_eq!(k, k2);
+    assert_eq!(c.shape(), &[m, n]);
+
+    let a_data = a.data();
+    let b_data = b.data();
+    let c_data = unsafe { c.data_mut() };
+
+    for i in 0..m {
+        for j in 0..n {
+            let mut sum = 0.0;
+            for l in 0..k {
+                sum += a_data[i * k + l] * b_data[j * k + l];
+            }
+            c_data[i * n + j] = beta * c_data[i * n + j] + alpha * sum;
+        }
+    }
 }
 
 // Dot product of two tensors (treated as vectors)
@@ -348,6 +383,7 @@ pub fn random_sample(x: &Tensor<f32>, top_p: f32, top_k: u32, temperature: f32) 
     // sample
     logits.iter().find(|p| p.val >= plimit).unwrap().tok
 }
+
 
 
 // Your implementation should at least pass the following tests:
