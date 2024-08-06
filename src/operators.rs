@@ -174,10 +174,6 @@ pub fn random_sample(x: &Tensor<f32>, top_p: f32, top_k: u32, temperature: f32) 
     logits.iter().find(|p| p.val >= plimit).unwrap().tok
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 9dd0890 (完成作业1算子：SiLU函数)
 // Your implementation should at least pass the following tests:
 #[test]
 fn test_silu() {
