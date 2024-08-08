@@ -104,7 +104,18 @@ impl Llama<f32> {
             todo!("self_attention(...)");
             todo!("down_proj matmul and add residual");
 
-            todo!("mlp(...)");
+            // todo!("mlp(...)");
+            mlp(
+                &mut residual,
+                &mut hidden_states,
+                &mut gate_buf,
+                &mut up_buf,
+                &self.params.w_up[layer],
+                &self.params.w_down[layer],
+                &self.params.w_gate[layer],
+                &self.params.rms_ffn_w[layer],
+                self.eps,
+            );
         }
 
         // No matter what seq_len, the output is always a 1D vector of length vocab,
@@ -167,7 +178,16 @@ fn mlp(
     rms_w: &Tensor<f32>,
     eps: f32,
 ) {
-    todo!("Implement mlp");
+    OP::rms_norm(hidden_states, &residual, rms_w, eps);
+    OP::matmul_transb(gate, 0., hidden_states, w_gate, 1.);
+    OP::matmul_transb(up, 0., hidden_states, w_up, 1.);
+    OP::silu(up, &gate);
+    OP::matmul_transb(hidden_states, 0., &up, w_down, 1.);
+    let residual_ = unsafe { residual.data_mut() };
+    let hidden_ = hidden_states.data();
+    for i in 0..hidden_states.size() {
+        residual_[i] += hidden_[i];
+    }
 }
 
 #[test]
