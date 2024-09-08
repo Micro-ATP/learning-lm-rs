@@ -1,0 +1,100 @@
+PowerShell 7.4.5
+PS E:\GitHub\learning-lm-rs> cargo run
+   Compiling onig_sys v69.8.1
+   Compiling esaxx-rs v0.1.10
+   Compiling onig v6.4.0
+   Compiling tokenizers v0.19.1
+   Compiling learning-lm-rust v0.1.0 (E:\GitHub\learning-lm-rs)
+error[E0061]: this method takes 2 arguments but 1 argument was supplied
+   --> src\model.rs:229:31
+    |
+229 |             let logits = self.forward(&result);
+    |                               ^^^^^^^--------- an argument of type `&mut KVCache<f32>` is missing
+    |
+note: expected `&Tensor<u32>`, found `&Vec<u32>`
+   --> src\model.rs:229:39
+    |
+229 |             let logits = self.forward(&result);
+    |                                       ^^^^^^^
+    = note: expected reference `&Tensor<u32>`
+               found reference `&Vec<u32>`
+note: method defined here
+   --> src\model.rs:59:12
+    |
+59  |     pub fn forward(&self, input: &Tensor<u32>, cache: &mut KVCache<f32>) -> Tensor<f32> {
+    |            ^^^^^^^        -------------------  ------------------------
+help: provide the argument
+    |
+229 |             let logits = self.forward(/* &Tensor<u32> */, /* &mut KVCache<f32> */);
+    |                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+error[E0599]: no method named `iter` found for struct `Tensor` in the current scope
+   --> src\model.rs:232:52
+    |
+232 |             let adjusted_logits: Vec<f32> = logits.iter()
+    |                                                    ^^^^ method not found in `Tensor<f32>`
+    |
+   ::: src\tensor.rs:2:1
+    |
+2   | pub struct Tensor<T> {
+    | -------------------- method `iter` not found for this struct
+
+error[E0599]: no method named `len` found for struct `Tensor` in the current scope
+   --> src\model.rs:237:61
+    |
+237 |             let mut sorted_indices: Vec<usize> = (0..logits.len()).collect();
+    |                                                             ^^^ method not found in `Tensor<f32>`
+    |
+   ::: src\tensor.rs:2:1
+    |
+2   | pub struct Tensor<T> {
+    | -------------------- method `len` not found for this struct
+    |
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following traits define an item `len`, perhaps you need to implement one of them:
+            candidate #1: `ExactSizeIterator`
+            candidate #2: `nom::traits::AsChar`
+            candidate #3: `onig::buffers::EncodedChars`
+            candidate #4: `rayon::iter::IndexedParallelIterator`
+            candidate #5: `rayon::range::private::IndexedRangeInteger`
+            candidate #6: `rayon::range_inclusive::private::IndexedRangeInteger`
+
+error[E0609]: no field `end_token_id` on type `&Llama<f32>`
+   --> src\model.rs:266:38
+    |
+266 |             if sampled_index == self.end_token_id {
+    |                                      ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+266 |             if sampled_index == self.eos_token_id {
+    |                                      ~~~~~~~~~~~~
+
+warning: unused variable: `full_k`
+   --> src\model.rs:104:17
+    |
+104 |             let full_k = &mut cache.k_cache(layer, 0); // (total_seq, n_kv_h * dqkv)
+    |                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_full_k`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `full_v`
+   --> src\model.rs:105:17
+    |
+105 |             let full_v = &mut cache.v_cache(layer, 0); // (total_seq, n_kv_h * dqkv)
+    |                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_full_v`
+
+warning: value assigned to `value` is never read
+   --> src\model.rs:325:25
+    |
+325 |                 let mut value = 0f32;
+    |                         ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+Some errors have detailed explanations: E0061, E0599, E0609.
+For more information about an error, try `rustc --explain E0061`.
+warning: `learning-lm-rust` (bin "learning-lm-rust") generated 3 warnings
+error: could not compile `learning-lm-rust` (bin "learning-lm-rust") due to 4 previous errors; 3 warnings emitted
+PS E:\GitHub\learning-lm-rs>

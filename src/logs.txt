@@ -1,0 +1,6375 @@
+PS E:\GitHub\learning-lm-rs> cargo run
+   Compiling onig_sys v69.8.1
+   Compiling esaxx-rs v0.1.10
+   Compiling onig v6.4.0
+   Compiling tokenizers v0.19.1
+   Compiling learning-lm-rust v0.1.0 (E:\GitHub\learning-lm-rs)
+warning: unused variable: `full_k`
+   --> src\model.rs:105:17
+    |
+105 |             let full_k = &mut cache.k_cache(layer, 0); // (total_seq, n_kv_h * dqkv)
+    |                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_full_k`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `full_v`
+   --> src\model.rs:106:17
+    |
+106 |             let full_v = &mut cache.v_cache(layer, 0); // (total_seq, n_kv_h * dqkv)
+    |                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_full_v`
+
+warning: value assigned to `value` is never read
+   --> src\model.rs:300:25
+    |
+300 |                 let mut value = 0f32;
+    |                         ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+warning: field `bos_token_id` is never read
+  --> src\model.rs:27:5
+   |
+15 | pub struct Llama<T> {
+   |            ----- field in this struct
+...
+27 |     bos_token_id: u32,      // start token id
+   |     ^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: function `random_sample` is never used
+   --> src\operators.rs:159:8
+    |
+159 | pub fn random_sample(x: &Tensor<f32>, top_p: f32, top_k: u32, temperature: f32) -> u32 {
+    |        ^^^^^^^^^^^^^
+
+warning: `learning-lm-rust` (bin "learning-lm-rust") generated 5 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.76s
+     Running `target\debug\learning-lm-rust.exe`
+
+Once upon a timeTensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 384
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 384
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 384
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 384
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 6
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 12
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 18
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 24
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 30
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 72
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 78
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 84
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 90
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 102
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 150
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 156
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 162
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 168
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 174
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 216
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 222
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 228
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 234
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 246
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 36
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 42
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 54
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 60
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 66
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 108
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 114
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 120
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 126
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 132
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 138
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 180
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 186
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 198
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 204
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 210
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 252
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 258
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 264
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 270
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 276
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 282
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 384
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 384
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 384
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 384
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 400
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 416
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 432
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 448
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 464
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 480
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 496
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 512
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 528
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 544
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 560
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 576
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 592
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 608
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 624
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 16
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 32
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 64
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 80
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 112
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 128
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 160
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 176
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 208
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 224
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 256
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 272
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 288
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 304
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 656
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 320
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 672
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 688
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 336
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 704
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 720
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 352
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 736
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 752
+new_length: 16
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 368
+new_length: 16
+self.length: 384
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 6
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 12
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 18
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 24
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 30
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 72
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 78
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 84
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 90
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 96
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 102
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 144
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 150
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 156
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 162
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 168
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 174
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 216
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 222
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 228
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 234
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 240
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 246
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 36
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 42
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 48
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 54
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 60
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 66
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 108
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 114
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 120
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 126
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 132
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 138
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 180
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 186
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 192
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 198
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 204
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 210
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 252
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 258
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 264
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 270
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 276
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 282
+new_length: 6
+self.length: 288
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 128
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 640
+new_length: 128
+self.length: 768
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 64
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 384
+new_length: 64
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 448
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 448
+self.length: 32768
+Tensor slicing debug info:
+self.offset: 0
+start: 0
+new_length: 16
+self.length: 128
+Tensor slicing debug info:
+self.offset: 384
+start: 0
+new_length: 16
+self.length: 64
+thread 'main' panicked at src\tensor.rs:74:9:
+assertion failed: self.offset + start + new_length <= self.length
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: process didn't exit successfully: `target\debug\learning-lm-rust.exe` (exit code: 101)
+PS E:\GitHub\learning-lm-rs>

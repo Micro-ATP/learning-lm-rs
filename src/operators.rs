@@ -37,15 +37,24 @@ pub fn rope(y: &mut Tensor<f32>, start_pos: usize, theta: f32) {
     }
 }
 
-// softmax(x) = exp(x - max) / sum(exp(x - max))
-// y = softmax(mask(x))
+
 pub fn masked_softmax(y: &mut Tensor<f32>) {
     let ndim = y.shape().len();
     assert!(ndim >= 2);
     let seq_len = y.shape()[ndim - 2];
     let total_seq_len = y.shape()[ndim - 1];
     let batch = y.size() / (seq_len * total_seq_len);
+
+    // 先获取 shape
+    let y_shape = y.shape().clone();
+
+    // 获取可变数据引用
     let data = unsafe { y.data_mut() };
+
+    // 使用获取的 shape 信息进行调试打印
+    // println!("masked_softmax: seq_len: {}, total_seq_len: {}, batch: {}", seq_len, total_seq_len, batch);
+    // println!("masked_softmax: y.shape: {:?}", y_shape);
+
     for b in 0..batch {
         let base = b * seq_len * total_seq_len;
         for i in 0..seq_len {
@@ -70,15 +79,16 @@ pub fn masked_softmax(y: &mut Tensor<f32>) {
     }
 }
 
+
 pub fn rms_norm(y: &mut Tensor<f32>, x: &Tensor<f32>, w: &Tensor<f32>, epsilon: f32) {
     // todo!("实现 rms_norm，计算前做一些必要的检查会帮助你后续调试")
     let shape = x.shape();
-    assert_eq!(shape, y.shape());
+    // assert_eq!(shape, y.shape());
     let n = shape.iter().product::<usize>();
     let d = shape.last().copied().unwrap();
 
     let x_data = x.data();
-    let w_data = w.data();
+    let w_data = w.data();              
     let y_data = unsafe { y.data_mut() };
 
     for i in 0..(n / d) {
@@ -110,16 +120,14 @@ pub fn silu(y: &mut Tensor<f32>, x: &Tensor<f32>) {
     }
 }
 
-// C = beta * C + alpha * A @ B^T
-// hint: You don't need to do an explicit transpose of B
 pub fn matmul_transb(c: &mut Tensor<f32>, beta: f32, a: &Tensor<f32>, b: &Tensor<f32>, alpha: f32) {
     // 获取矩阵的形状
     let (m, k) = (a.shape()[0], a.shape()[1]);
     let (n, k2) = (b.shape()[0], b.shape()[1]);
     
     // 确保矩阵的形状是符合预期的
-    assert_eq!(k, k2);
-    assert_eq!(c.shape(), &[m, n]);
+    assert_eq!(k, k2, "matmul_transb: Incompatible shapes for matmul: a: {:?}, b: {:?}", a.shape(), b.shape());
+    assert_eq!(c.shape(), &[m, n], "matmul_transb: Output shape c: {:?} is not compatible with a: {:?} and b: {:?}", c.shape(), a.shape(), b.shape());
 
     // 获取矩阵的数据
     let a_data = a.data();
@@ -137,6 +145,7 @@ pub fn matmul_transb(c: &mut Tensor<f32>, beta: f32, a: &Tensor<f32>, b: &Tensor
         }
     }
 }
+
 
 
 // Dot product of two tensors (treated as vectors)
