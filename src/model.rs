@@ -37,13 +37,42 @@ pub struct Message {
 
 
 impl Llama<f32> {
+    // pub fn from_safetensors(model_dir: impl AsRef<Path>) -> Self {
+    //     let config = File::open(model_dir.as_ref().join("config.json")).unwrap();
+    //     let config: LlamaConfigJson = serde_json::from_reader(config).unwrap();
+    //     let model_file = std::fs::read(model_dir.as_ref().join("model.safetensors")).unwrap();
+    //     let safetensor = SafeTensors::deserialize(&model_file).unwrap();
+    //     let params = LLamaParams::from_safetensors(&safetensor, &config);
+
+    //     Self {
+    //         vocab: config.vocab_size,
+    //         n_layers: config.num_hidden_layers,
+    //         n_q_h: config.num_attention_heads,
+    //         n_kv_h: config.num_key_value_heads,
+    //         d: config.hidden_size,
+    //         dqkv: config.hidden_size / config.num_attention_heads,
+    //         di: config.intermediate_size,
+    //         eps: config.rms_norm_eps,
+    //         rope_theta: config.rope_theta,
+    //         max_seq_len: config.max_position_embeddings,
+    //         params: params,
+    //         bos_token_id: config.bos_token_id,
+    //         eos_token_id: config.eos_token_id,
+    //     }
+    // }
+
     pub fn from_safetensors(model_dir: impl AsRef<Path>) -> Self {
         let config = File::open(model_dir.as_ref().join("config.json")).unwrap();
         let config: LlamaConfigJson = serde_json::from_reader(config).unwrap();
         let model_file = std::fs::read(model_dir.as_ref().join("model.safetensors")).unwrap();
         let safetensor = SafeTensors::deserialize(&model_file).unwrap();
         let params = LLamaParams::from_safetensors(&safetensor, &config);
-
+    
+        // 输出部分权重信息，检查是否加载正确
+        println!("Loaded model parameters successfully. Vocab size: {}", config.vocab_size);
+        println!("Number of layers: {}", config.num_hidden_layers);
+        println!("Number of attention heads: {}", config.num_attention_heads);
+    
         Self {
             vocab: config.vocab_size,
             n_layers: config.num_hidden_layers,
@@ -60,6 +89,8 @@ impl Llama<f32> {
             eos_token_id: config.eos_token_id,
         }
     }
+    
+
 
     pub fn new_cache(&self) -> KVCache<f32> {
         KVCache::new(self.n_layers, self.max_seq_len, self.n_kv_h * self.dqkv, 0)
@@ -148,6 +179,33 @@ impl Llama<f32> {
     }
 
 
+    // pub fn generate(
+    //     &self,
+    //     token_ids: &[u32],
+    //     max_len: usize,
+    //     top_p: f32,
+    //     top_k: u32,
+    //     temperature: f32,
+    // ) -> Vec<u32> {
+    //     let mut result = Vec::<u32>::new();
+    //     let mut cache = self.new_cache();
+    //     let mut token: Vec<u32> = Vec::from(token_ids);
+    //     if token[0] != self.bos_token_id {
+    //         token.insert(0, self.bos_token_id);
+    //     }
+    //     let mut input = Tensor::<u32>::new(token, &vec![1, token_ids.len()]);
+    //     loop {
+    //         let output =
+    //             random_sample(&self.forward(&input, &mut cache), top_p, top_k, temperature);
+    //         result.push(output);
+    //         if result.len() >= max_len || output == self.eos_token_id {
+    //             break;
+    //         }
+    //         input = Tensor::<u32>::new(Vec::from([output]), &vec![1, 1]);
+    //     }
+
+    //     result
+    // }
     pub fn generate(
         &self,
         token_ids: &[u32],
@@ -159,22 +217,35 @@ impl Llama<f32> {
         let mut result = Vec::<u32>::new();
         let mut cache = self.new_cache();
         let mut token: Vec<u32> = Vec::from(token_ids);
+        
         if token[0] != self.bos_token_id {
             token.insert(0, self.bos_token_id);
         }
+    
+        // Batch input initialization
         let mut input = Tensor::<u32>::new(token, &vec![1, token_ids.len()]);
-        loop {
-            let output =
-                random_sample(&self.forward(&input, &mut cache), top_p, top_k, temperature);
-            result.push(output);
-            if result.len() >= max_len || output == self.eos_token_id {
+    
+        while result.len() < max_len {
+            // 批量生成多个 token (例如 batch_size = 4)
+            let batch_size = 4;
+            let mut batch_output = Vec::new();
+            for _ in 0..batch_size {
+                let output = random_sample(&self.forward(&input, &mut cache), top_p, top_k, temperature);
+                batch_output.push(output);
+            }
+            
+            result.extend_from_slice(&batch_output);
+            if result.contains(&self.eos_token_id) {
                 break;
             }
-            input = Tensor::<u32>::new(Vec::from([output]), &vec![1, 1]);
+    
+            input = Tensor::<u32>::new(batch_output, &vec![1, batch_size]);
         }
-
+    
         result
     }
+    
+
 
 
     fn format_messages(&self, messages: &[Message], add_generation_prompt: bool) -> String {
@@ -195,37 +266,78 @@ impl Llama<f32> {
         chat_input
     }
 
-        pub fn chat(
-            &self,
-            messages: Vec<(String, String)>, // a list of (role, content) tuples
-            max_len: usize,
-            top_p: f32,
-            top_k: u32,
-            temperature: f32,
-        ) -> String {
-            // Build the input string following the template
-            let mut input_text = String::new();
+//         pub fn chat(
+//             &self,
+//             messages: Vec<(String, String)>, // a list of (role, content) tuples
+//             max_len: usize,
+//             top_p: f32,
+//             top_k: u32,
+//             temperature: f32,
+//         ) -> String {
+//             // Build the input string following the template
+//             let mut input_text = String::new();
     
-            for (role, content) in messages {
-                input_text.push_str(&format!("<|im_start|>{}\n{}<|im_end|>\n", role, content));
-            }
+//             for (role, content) in messages {
+//                 input_text.push_str(&format!("<|im_start|>{}\n{}<|im_end|>\n", role, content));
+//             }
     
-            // Append the assistant prompt
-            input_text.push_str("<|im_start|>assistant\n");
+//             // Append the assistant prompt
+//             input_text.push_str("<|im_start|>assistant\n");
     
-            // Tokenize the input_text
-            let tokenizer = Tokenizer::from_file("models/chat/tokenizer.json").unwrap();
-            let binding = tokenizer.encode(input_text, true).unwrap();
-            let input_ids = binding.get_ids();
+//             // Tokenize the input_text
+//             let tokenizer = Tokenizer::from_file("models/chat/tokenizer.json").unwrap();
+//             let binding = tokenizer.encode(input_text, true).unwrap();
+//             let input_ids = binding.get_ids();
     
-            // Generate the response tokens
-            let output_ids = self.generate(input_ids, max_len, top_p, top_k, temperature);
+//             // Generate the response tokens
+//             let output_ids = self.generate(input_ids, max_len, top_p, top_k, temperature);
     
-            // Decode the response tokens into text
-            tokenizer.decode(&output_ids, true).unwrap()
-        }
+//             // Decode the response tokens into text
+//             tokenizer.decode(&output_ids, true).unwrap()
+//         }
     
+// }
+
+pub fn chat(
+    &self,
+    messages: Vec<(String, String)>, // a list of (role, content) tuples
+    tokenizer_path: &str,            // 将路径作为参数传递
+    max_len: usize,
+    top_p: f32,
+    top_k: u32,
+    temperature: f32,
+    mut chat_history: Vec<(String, String)>,  // 增加历史对话记录
+) -> String {
+    // 将历史对话合并到新的对话中
+    chat_history.extend(messages.clone());
+
+    let mut input_text = String::new();
+
+    // 使用历史记录生成输入
+    for (role, content) in &chat_history {
+        input_text.push_str(&format!("<|im_start|>{}\n{}<|im_end|>\n", role, content));
+    }
+
+    // Append the assistant prompt
+    input_text.push_str("<|im_start|>assistant\n");
+
+    // Tokenize the input_text
+    let tokenizer = Tokenizer::from_file(tokenizer_path).unwrap();  // 使用传递的路径
+    let binding = tokenizer.encode(input_text, true).unwrap();
+    let input_ids = binding.get_ids();
+
+    // Generate the response tokens
+    let output_ids = self.generate(input_ids, max_len, top_p, top_k, temperature);
+
+    // Decode the response tokens into text
+    let response = tokenizer.decode(&output_ids, true).unwrap();
+
+    // 包装生成的响应到 <|im_start|>assistant 和 <|im_end|>
+    format!("<|im_start|>assistant\n{}\n<|im_end|>", response)
 }
+
+}
+
 
 
 fn self_attention(
