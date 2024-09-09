@@ -45,58 +45,54 @@ pub fn masked_softmax(y: &mut Tensor<f32>) {
     let total_seq_len = y.shape()[ndim - 1];
     let batch = y.size() / (seq_len * total_seq_len);
 
-    // 先获取 shape
-    let y_shape = y.shape().clone();
-
-    // 获取可变数据引用
     let data = unsafe { y.data_mut() };
-
-    // 使用获取的 shape 信息进行调试打印
-    // println!("masked_softmax: seq_len: {}, total_seq_len: {}, batch: {}", seq_len, total_seq_len, batch);
-    // println!("masked_softmax: y.shape: {:?}", y_shape);
 
     for b in 0..batch {
         let base = b * seq_len * total_seq_len;
         for i in 0..seq_len {
             let offset = base + i * total_seq_len;
-            let boundary = total_seq_len - seq_len + i + 1;
 
-            let max = data[offset..offset + boundary]
+            // 找到最大值，避免数值下溢
+            let max = data[offset..offset + total_seq_len]
                 .iter()
-                .fold(data[offset], |a, b| a.max(*b));
+                .fold(f32::NEG_INFINITY, |a, &b| a.max(b));
 
-            let sum = (0..boundary)
+            // 计算 softmax
+            let sum: f32 = (0..total_seq_len)
                 .map(|j| {
                     let e = (data[offset + j] - max).exp();
                     data[offset + j] = e;
                     e
                 })
-                .sum::<f32>();
+                .sum();
 
-            (0..boundary).for_each(|j| data[offset + j] /= sum);
-            (boundary..total_seq_len).for_each(|j| data[offset + j] = 0.0);
+            (0..total_seq_len).for_each(|j| data[offset + j] /= sum);
         }
     }
 }
 
-
 pub fn rms_norm(y: &mut Tensor<f32>, x: &Tensor<f32>, w: &Tensor<f32>, epsilon: f32) {
-    // todo!("实现 rms_norm，计算前做一些必要的检查会帮助你后续调试")
-    let shape = x.shape();
-    // assert_eq!(shape, y.shape());
-    let n = shape.iter().product::<usize>();
-    let d = shape.last().copied().unwrap();
+    let x_shape = x.shape();
+    let y_shape = y.shape();
+    let d = w.size();
+
+    // 在进行可变借用之前获取 y 的 size
+    let y_size = y.size();
+    let x_size = x.size();
+
+    // 确保形状匹配
+    assert_eq!(x_shape.last().copied().unwrap(), d, "Shape mismatch with weights");
+    assert_eq!(x_size, y_size, "Shape mismatch between x and y");
 
     let x_data = x.data();
-    let w_data = w.data();              
+    let w_data = w.data();
     let y_data = unsafe { y.data_mut() };
 
-    for i in 0..(n / d) {
+    for i in 0..(x_size / d) {
         let start = i * d;
-        let end = start + d;
         let mut norm = 0.0;
-        for j in start..end {
-            norm += x_data[j] * x_data[j];
+        for j in 0..d {
+            norm += x_data[start + j] * x_data[start + j];
         }
         norm = (norm / d as f32 + epsilon).sqrt();
         for j in 0..d {
@@ -104,6 +100,7 @@ pub fn rms_norm(y: &mut Tensor<f32>, x: &Tensor<f32>, w: &Tensor<f32>, epsilon: 
         }
     }
 }
+
 
 // y = sigmoid(x) * x * y
 // hint: this is an element-wise operation
@@ -121,20 +118,16 @@ pub fn silu(y: &mut Tensor<f32>, x: &Tensor<f32>) {
 }
 
 pub fn matmul_transb(c: &mut Tensor<f32>, beta: f32, a: &Tensor<f32>, b: &Tensor<f32>, alpha: f32) {
-    // 获取矩阵的形状
     let (m, k) = (a.shape()[0], a.shape()[1]);
     let (n, k2) = (b.shape()[0], b.shape()[1]);
     
-    // 确保矩阵的形状是符合预期的
-    assert_eq!(k, k2, "matmul_transb: Incompatible shapes for matmul: a: {:?}, b: {:?}", a.shape(), b.shape());
-    assert_eq!(c.shape(), &[m, n], "matmul_transb: Output shape c: {:?} is not compatible with a: {:?} and b: {:?}", c.shape(), a.shape(), b.shape());
+    assert_eq!(k, k2, "Incompatible shapes for matmul: a: {:?}, b: {:?}", a.shape(), b.shape());
+    assert_eq!(c.shape(), &[m, n], "Output shape mismatch: c: {:?}, a: {:?}, b: {:?}", c.shape(), a.shape(), b.shape());
 
-    // 获取矩阵的数据
     let a_data = a.data();
     let b_data = b.data();
     let c_data = unsafe { c.data_mut() };
 
-    // 对矩阵进行运算
     for i in 0..m {
         for j in 0..n {
             let mut sum = 0.0;
