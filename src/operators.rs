@@ -1,4 +1,7 @@
 use crate::tensor::Tensor;
+use num_traits::Float;
+use std::ops::DivAssign;
+
 
 // get (row) vectors from a 2D table given a list of indices
 pub fn gather(y: &mut Tensor<f32>, indices: &Tensor<u32>, table: &Tensor<f32>) {
@@ -38,72 +41,104 @@ pub fn rope(y: &mut Tensor<f32>, start_pos: usize, theta: f32) {
 }
 
 
-pub fn masked_softmax(y: &mut Tensor<f32>) {
-    let ndim = y.shape().len();
-    assert!(ndim >= 2);
-    let seq_len = y.shape()[ndim - 2];
-    let total_seq_len = y.shape()[ndim - 1];
-    let batch = y.size() / (seq_len * total_seq_len);
+// pub fn masked_softmax(y: &mut Tensor<f32>) {
+//     let ndim = y.shape().len();
+//     assert!(ndim >= 2);
+//     let seq_len = y.shape()[ndim - 2];
+//     let total_seq_len = y.shape()[ndim - 1];
+//     let batch = y.size() / (seq_len * total_seq_len);
 
-    // 先获取 shape
-    let y_shape = y.shape().clone();
+//     // 先获取 shape
+//     let y_shape = y.shape().clone();
 
-    // 获取可变数据引用
-    let data = unsafe { y.data_mut() };
+//     // 获取可变数据引用
+//     let data = unsafe { y.data_mut() };
 
-    // 使用获取的 shape 信息进行调试打印
-    // println!("masked_softmax: seq_len: {}, total_seq_len: {}, batch: {}", seq_len, total_seq_len, batch);
-    // println!("masked_softmax: y.shape: {:?}", y_shape);
+//     // 使用获取的 shape 信息进行调试打印
+//     // println!("masked_softmax: seq_len: {}, total_seq_len: {}, batch: {}", seq_len, total_seq_len, batch);
+//     // println!("masked_softmax: y.shape: {:?}", y_shape);
 
-    for b in 0..batch {
-        let base = b * seq_len * total_seq_len;
-        for i in 0..seq_len {
-            let offset = base + i * total_seq_len;
-            let boundary = total_seq_len - seq_len + i + 1;
+//     for b in 0..batch {
+//         let base = b * seq_len * total_seq_len;
+//         for i in 0..seq_len {
+//             let offset = base + i * total_seq_len;
+//             let boundary = total_seq_len - seq_len + i + 1;
 
-            let max = data[offset..offset + boundary]
-                .iter()
-                .fold(data[offset], |a, b| a.max(*b));
+//             let max = data[offset..offset + boundary]
+//                 .iter()
+//                 .fold(data[offset], |a, b| a.max(*b));
 
-            let sum = (0..boundary)
-                .map(|j| {
-                    let e = (data[offset + j] - max).exp();
-                    data[offset + j] = e;
-                    e
-                })
-                .sum::<f32>();
+//             let sum = (0..boundary)
+//                 .map(|j| {
+//                     let e = (data[offset + j] - max).exp();
+//                     data[offset + j] = e;
+//                     e
+//                 })
+//                 .sum::<f32>();
 
-            (0..boundary).for_each(|j| data[offset + j] /= sum);
-            (boundary..total_seq_len).for_each(|j| data[offset + j] = 0.0);
+//             (0..boundary).for_each(|j| data[offset + j] /= sum);
+//             (boundary..total_seq_len).for_each(|j| data[offset + j] = 0.0);
+//         }
+//     }
+// }
+// pub fn masked_softmax<P: Float + std::iter::Sum + DivAssign>(y: &mut Tensor<P>) {
+    pub fn masked_softmax(y: &mut Tensor<f32>) {
+        let ndim = y.shape().len();
+        assert!(ndim >= 2);
+        let seq_len = y.shape()[ndim - 2];
+        let total_seq_len = y.shape()[ndim - 1];
+        let batch = y.size() / (seq_len * total_seq_len);
+        let data = unsafe { y.data_mut() };
+        for b in 0..batch {
+            let base = b * seq_len * total_seq_len;
+            for i in 0..seq_len {
+                let offset = base + i * total_seq_len;
+                let boundary = total_seq_len - seq_len + i + 1;
+    
+                let max = data[offset..offset + boundary]
+                    .iter()
+                    .fold(data[offset], |a, b| a.max(*b));
+    
+                let sum = (0..boundary)
+                    .map(|j| {
+                        let e = (data[offset + j] - max).exp();
+                        data[offset + j] = e;
+                        e
+                    })
+                    .sum::<f32>();
+    
+                (0..boundary).for_each(|j| data[offset + j] /= sum);
+                (boundary..total_seq_len).for_each(|j| data[offset + j] = 0.0);
+            }
         }
     }
-}
-
-
-pub fn rms_norm(y: &mut Tensor<f32>, x: &Tensor<f32>, w: &Tensor<f32>, epsilon: f32) {
-    // todo!("实现 rms_norm，计算前做一些必要的检查会帮助你后续调试")
-    let shape = x.shape();
-    // assert_eq!(shape, y.shape());
-    let n = shape.iter().product::<usize>();
-    let d = shape.last().copied().unwrap();
-
-    let x_data = x.data();
-    let w_data = w.data();              
-    let y_data = unsafe { y.data_mut() };
-
-    for i in 0..(n / d) {
-        let start = i * d;
-        let end = start + d;
-        let mut norm = 0.0;
-        for j in start..end {
-            norm += x_data[j] * x_data[j];
+    
+    pub fn rms_norm(y: &mut Tensor<f32>, x: &Tensor<f32>, w: &Tensor<f32>, epsilon: f32) {
+        let shape = y.shape().clone();
+        let len = shape.len();
+        let last_dim = len - 1;
+        let _y = unsafe { y.data_mut() };
+        let _x = x.data();
+        let _w = w.data();
+    
+        let mut ext_loop = 1;
+        for i in 0..(shape.len() - 1) {
+            ext_loop *= shape[i];
         }
-        norm = (norm / d as f32 + epsilon).sqrt();
-        for j in 0..d {
-            y_data[start + j] = (x_data[start + j] / norm) * w_data[j];
+        let inner_size = shape[last_dim];
+    
+        for i in 0..ext_loop {
+            let mut xp = 0f32;
+            for j in 0..shape[last_dim] {
+                xp += _x[i * inner_size + j] * _x[i * inner_size + j];
+                _y[i * inner_size + j] = _w[j] * _x[i * inner_size + j];
+            }
+            xp = f32::sqrt(xp / inner_size as f32 + epsilon);
+            for j in 0..shape[last_dim] {
+                _y[i * inner_size + j] /= xp;
+            }   
         }
     }
-}
 
 // y = sigmoid(x) * x * y
 // hint: this is an element-wise operation
