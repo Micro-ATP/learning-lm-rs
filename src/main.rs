@@ -139,8 +139,8 @@ fn run_story_mode() {
     let output_ids = llama.generate(
         input_ids,
         500,
-        0.9,
-        4,
+        0.8,
+        30,
         1.,
     );
     println!("{}", tokenizer.decode(&output_ids, true).unwrap());
