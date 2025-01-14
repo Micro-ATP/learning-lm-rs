@@ -150,30 +150,39 @@ impl Llama<f32> {
 
     pub fn generate(
         &self,
-        token_ids: &[u32],
-        max_len: usize,
+        input_ids: &[u32],
+        max_new_tokens: usize,
         top_p: f32,
         top_k: u32,
         temperature: f32,
     ) -> Vec<u32> {
-        let mut result = Vec::<u32>::new();
         let mut cache = self.new_cache();
-        let mut token: Vec<u32> = Vec::from(token_ids);
-        if token[0] != self.bos_token_id {
-            token.insert(0, self.bos_token_id);
-        }
-        let mut input = Tensor::<u32>::new(token, &vec![1, token_ids.len()]);
-        loop {
-            let output =
-                random_sample(&self.forward(&input, &mut cache), top_p, top_k, temperature);
-            result.push(output);
-            if result.len() >= max_len || output == self.eos_token_id {
+        let mut output_ids = input_ids.to_vec();
+        let input_tensor = Tensor::new(input_ids.to_vec(), &vec![input_ids.len()]);
+        
+        // 处理初始输入
+        self.forward(&input_tensor, &mut cache);
+        
+        // 生成新的 token
+        for _ in 0..max_new_tokens {
+            // 获取最后一个 token
+            let last_token = vec![*output_ids.last().unwrap()];
+            let last_input = Tensor::new(last_token, &vec![1]);
+            
+            // 前向传播
+            let logits = self.forward(&last_input, &mut cache);
+            
+            // 采样下一个 token
+            let next_token = random_sample(&logits, top_p, top_k, temperature);
+            output_ids.push(next_token);
+            
+            // 检查是否生成了结束符
+            if next_token == self.eos_token_id {
                 break;
             }
-            input = Tensor::<u32>::new(Vec::from([output]), &vec![1, 1]);
         }
-
-        result
+        
+        output_ids
     }
 
 

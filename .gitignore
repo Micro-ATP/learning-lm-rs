@@ -3,3 +3,5 @@ Cargo.lock
 .vscode
 .idea
 /models
+.DS_Store
+.DS_Store
