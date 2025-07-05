@@ -22,50 +22,69 @@ pub struct LLamaParams<T> {
 
 impl LLamaParams<f32> {
     pub fn from_safetensors(safetensor: &SafeTensors, config: &LlamaConfigJson) -> Self {
-        let layers = config.num_hidden_layers;
-        let get_tensor = |name: &str| {
-            let tensor_view = safetensor.tensor(name).expect("Failed to get tensor");
-            let mut data = vec![];
-            for chunk in tensor_view.data().chunks_exact(4) {
-                let bytes: [u8; 4] = chunk.try_into().expect("slice with incorrect length");
-                let f = f32::from_le_bytes(bytes);
-                data.push(f);
-            }
-            Tensor::new(data, &tensor_view.shape().to_vec())
+        let get_tensor = |name: &str| -> Tensor<f32> {
+            let tensor = safetensor.tensor(name).unwrap();
+            
+            // 根据数据类型正确读取数据
+            let data: Vec<f32> = match tensor.dtype() {
+                safetensors::Dtype::F32 => {
+                    let raw_data = tensor.data();
+                    let f32_data: &[f32] = unsafe { std::slice::from_raw_parts(raw_data.as_ptr() as *const f32, raw_data.len() / 4) };
+                    f32_data.to_vec()
+                },
+                _ => {
+                    // 对于其他数据类型，使用原来的转换方式
+                    tensor.data().iter().map(|&x| x as f32).collect()
+                }
+            };
+            
+            Tensor::new(data, &tensor.shape().iter().map(|&x| x as usize).collect())
         };
-        // let is_tie_embeddings = config.tie_word_embeddings;
-
-        Self {
-            embedding_table: get_tensor("lm_head.weight"),
-            rms_att_w: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.input_layernorm.weight")))
-                .collect(),
-            wq: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.self_attn.q_proj.weight")))
-                .collect(),
-            wk: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.self_attn.k_proj.weight")))
-                .collect(),
-            wv: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.self_attn.v_proj.weight")))
-                .collect(),
-            wo: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.self_attn.o_proj.weight")))
-                .collect(),
-            rms_ffn_w: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.post_attention_layernorm.weight")))
-                .collect(),
-            w_up: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.mlp.up_proj.weight")))
-                .collect(),
-            w_gate: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.mlp.gate_proj.weight")))
-                .collect(),
-            w_down: (0..layers)
-                .map(|i| get_tensor(&format!("model.layers.{i}.mlp.down_proj.weight")))
-                .collect(),
-            rms_out_w: get_tensor("model.norm.weight"),
-            lm_head: get_tensor("lm_head.weight"),
+        
+        let n_layers = config.num_hidden_layers;
+        let mut rms_att_w = Vec::new();
+        let mut wq = Vec::new();
+        let mut wk = Vec::new();
+        let mut wv = Vec::new();
+        let mut wo = Vec::new();
+        let mut rms_ffn_w = Vec::new();
+        let mut w_up = Vec::new();
+        let mut w_gate = Vec::new();
+        let mut w_down = Vec::new();
+        
+        // 加载lm_head，同时用作embedding table（权重共享）
+        let lm_head = get_tensor("lm_head.weight");
+        let embedding_table = Tensor::new(lm_head.data().to_vec(), lm_head.shape());
+        
+        // 加载各层的参数
+        for layer in 0..n_layers {
+            rms_att_w.push(get_tensor(&format!("model.layers.{}.input_layernorm.weight", layer)));
+            wq.push(get_tensor(&format!("model.layers.{}.self_attn.q_proj.weight", layer)));
+            wk.push(get_tensor(&format!("model.layers.{}.self_attn.k_proj.weight", layer)));
+            wv.push(get_tensor(&format!("model.layers.{}.self_attn.v_proj.weight", layer)));
+            wo.push(get_tensor(&format!("model.layers.{}.self_attn.o_proj.weight", layer)));
+            rms_ffn_w.push(get_tensor(&format!("model.layers.{}.post_attention_layernorm.weight", layer)));
+            w_up.push(get_tensor(&format!("model.layers.{}.mlp.up_proj.weight", layer)));
+            w_gate.push(get_tensor(&format!("model.layers.{}.mlp.gate_proj.weight", layer)));
+            w_down.push(get_tensor(&format!("model.layers.{}.mlp.down_proj.weight", layer)));
+        }
+        
+        // 加载输出层参数
+        let rms_out_w = get_tensor("model.norm.weight");
+        
+        LLamaParams {
+            embedding_table,
+            rms_att_w,
+            wq,
+            wk,
+            wv,
+            wo,
+            rms_ffn_w,
+            w_up,
+            w_gate,
+            w_down,
+            rms_out_w,
+            lm_head,
         }
     }
 }
