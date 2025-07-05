@@ -48,25 +48,24 @@ fn main() {
                 if let Ok(version) = String::from_utf8(output.stdout) {
                     println!("   {}", version.lines().next().unwrap_or(""));
                 }
-                
-                // 编译CUDA shader
+                // 编译CUDA shader为DLL
                 let shader_src = "src/shaders.cu";
-                let shader_lib = "src/shaders.ptx";
-                
+                let shader_lib = "src/shaders.dll";
                 let status = std::process::Command::new("nvcc")
                     .args(&[
-                        "-ptx",
+                        "--shared",
                         "-o", shader_lib,
                         shader_src,
-                        "-arch=sm_89", // RTX 4070 Ti Super使用Ada架构
+                        "-arch=sm_89",
                         "-O3"
                     ])
                     .status();
-                
                 match status {
                     Ok(exit_status) => {
                         if exit_status.success() {
                             println!("✅ CUDA shader编译成功");
+                            println!("cargo:rustc-link-lib=dylib=shaders");
+                            println!("cargo:rustc-link-search=native=src");
                         } else {
                             println!("⚠️  CUDA shader编译失败，将使用CPU实现");
                         }
@@ -75,7 +74,6 @@ fn main() {
                         println!("⚠️  无法编译CUDA shader，将使用CPU实现");
                     }
                 }
-                
                 println!("cargo:rerun-if-changed=src/shaders.cu");
             }
             Err(_) => {

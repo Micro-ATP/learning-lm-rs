@@ -107,8 +107,15 @@ __global__ void softmax_kernel(
     }
 }
 
+// Windows下DLL导出
+#ifdef _WIN32
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT
+#endif
+
 // 辅助函数：启动矩阵乘法kernel
-extern "C" void launch_matmul(
+extern "C" EXPORT void launch_matmul(
     const float* a, const float* b, float* c,
     int m, int n, int k, float alpha, float beta
 ) {
@@ -118,10 +125,11 @@ extern "C" void launch_matmul(
     matmul_kernel<<<grid_size, block_size>>>(
         a, b, c, m, n, k, alpha, beta
     );
+    cudaDeviceSynchronize();
 }
 
 // 辅助函数：启动RMS归一化kernel
-extern "C" void launch_rms_norm(
+extern "C" EXPORT void launch_rms_norm(
     const float* x, const float* w, float* y,
     int batch_size, int hidden_size, float eps
 ) {
@@ -131,24 +139,27 @@ extern "C" void launch_rms_norm(
     rms_norm_kernel<<<grid_size, block_size>>>(
         x, w, y, batch_size, hidden_size, eps
     );
+    cudaDeviceSynchronize();
 }
 
 // 辅助函数：启动SwiGLU kernel
-extern "C" void launch_swiglu(
+extern "C" EXPORT void launch_swiglu(
     const float* x, float* y, int size
 ) {
     dim3 block_size(256);
     dim3 grid_size((size + 255) / 256);
     
     swiglu_kernel<<<grid_size, block_size>>>(x, y, size);
+    cudaDeviceSynchronize();
 }
 
 // 辅助函数：启动Softmax kernel
-extern "C" void launch_softmax(
+extern "C" EXPORT void launch_softmax(
     float* x, int seq_len, int batch_size
 ) {
     dim3 block_size(256);
     dim3 grid_size(batch_size);
     
     softmax_kernel<<<grid_size, block_size>>>(x, seq_len, batch_size);
+    cudaDeviceSynchronize();
 } 
