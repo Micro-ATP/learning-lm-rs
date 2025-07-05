@@ -263,21 +263,6 @@ impl Llama<f32> {
         let generated_ids = &output_ids[input_ids.len()..];
         binding.decode(generated_ids, true).unwrap()
     }
-
-    /// 批量文本生成
-    pub fn generate_batch(
-        &self,
-        batch_token_ids: &[Vec<u32>],
-        max_len: usize,
-        top_p: f32,
-        top_k: u32,
-        temperature: f32,
-    ) -> Vec<Vec<u32>> {
-        batch_token_ids
-            .iter()
-            .map(|input| self.generate(input, max_len, top_p, top_k, temperature))
-            .collect()
-    }
 }
 
 fn self_attention(
