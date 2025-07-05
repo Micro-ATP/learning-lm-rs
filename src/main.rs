@@ -108,7 +108,7 @@ fn main() {
     // debug_model_params();
     // return;
     
-    println!("请选择模式：1. AI对话  2. AI故事  (输入1或2)");
+    println!("请选择模式：1. AI对话  2. AI故事  3. 批量文本生成 (输入1/2/3)");
     print!("你的选择: ");
     io::stdout().flush().unwrap();
     let mut mode = String::new();
@@ -169,6 +169,33 @@ fn main() {
         print!("{}", input);
         let generated_ids = &output_ids[input_ids.len()..];
         println!("{}", tokenizer.decode(generated_ids, true).unwrap());
+    } else if mode == "3" {
+        // 批量文本生成测试
+        println!("🚀 启动批量文本生成测试...");
+        let project_dir = env!("CARGO_MANIFEST_DIR");
+        let model_dir = PathBuf::from(project_dir).join("models").join("story");
+        let llama = model::Llama::<f32>::from_safetensors(&model_dir);
+        let tokenizer = Tokenizer::from_file(model_dir.join("tokenizer.json")).unwrap();
+        // 示例批量输入
+        let prompts = vec![
+            "Once upon a time",
+            "The quick brown fox",
+            "In a distant future,",
+            "Rust is a great language because",
+        ];
+        let batch_token_ids: Vec<Vec<u32>> = prompts
+            .iter()
+            .map(|s| tokenizer.encode(*s, true).unwrap().get_ids().to_vec())
+            .collect();
+        let start = std::time::Instant::now();
+        let batch_outputs = llama.generate_batch(&batch_token_ids, 100, 0.8, 30, 1.0);
+        let elapsed = start.elapsed();
+        println!("批量生成完成，用时：{:.2?}", elapsed);
+        for (i, output_ids) in batch_outputs.iter().enumerate() {
+            let generated_ids = &output_ids[batch_token_ids[i].len()..];
+            let text = tokenizer.decode(generated_ids, true).unwrap();
+            println!("Prompt {}: {}\n生成: {}\n", i + 1, prompts[i], text);
+        }
     } else {
         println!("无效选择，程序退出。");
     }
