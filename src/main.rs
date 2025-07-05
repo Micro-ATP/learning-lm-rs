@@ -22,7 +22,52 @@ fn debug_model_params() {
     }
 }
 
+fn check_gpu_status() {
+    println!("🔍 检查GPU状态...");
+    
+    #[cfg(target_os = "macos")]
+    {
+        // 检查Metal是否可用
+        if crate::gpu::metal_backend::MetalBackend::is_available() {
+            println!("✅ Metal GPU后端可用");
+            
+            // 尝试创建GPU上下文
+            match crate::gpu::GPUContext::new() {
+                Ok(_) => println!("✅ GPU上下文创建成功"),
+                Err(e) => println!("❌ GPU上下文创建失败: {}", e),
+            }
+        } else {
+            println!("❌ Metal GPU后端不可用");
+        }
+        
+        // 显示系统信息
+        println!("💻 系统信息:");
+        println!("   - 操作系统: {}", std::env::consts::OS);
+        println!("   - 架构: {}", std::env::consts::ARCH);
+        
+        // 检查是否有Metal设备
+        if let Some(device) = metal::Device::system_default() {
+            println!("✅ 检测到Metal设备: {}", device.name());
+        } else {
+            println!("❌ 未检测到Metal设备");
+        }
+    }
+    
+    #[cfg(not(target_os = "macos"))]
+    {
+        println!("💻 系统信息:");
+        println!("   - 操作系统: {}", std::env::consts::OS);
+        println!("   - 架构: {}", std::env::consts::ARCH);
+        println!("ℹ️  GPU加速: 当前平台不支持Metal，使用CPU推理");
+    }
+    
+    println!();
+}
+
 fn main() {
+    // 检查GPU状态
+    check_gpu_status();
+    
     // 调试参数名称
     // debug_model_params();
     // return;
@@ -36,11 +81,13 @@ fn main() {
 
     if mode == "1" {
         // AI对话模式
+        println!("🚀 启动AI对话模式...");
         let project_dir = env!("CARGO_MANIFEST_DIR");
         let model_dir = PathBuf::from(project_dir).join("models").join("chat");
         let llama = model::Llama::<f32>::from_safetensors(&model_dir);
         let tokenizer = Tokenizer::from_file(model_dir.join("tokenizer.json")).unwrap();
         println!("欢迎使用AI聊天机器人！输入 'quit' 退出。");
+        println!("💡 提示: 当前使用CPU推理，如需GPU加速请完善Metal实现");
         let mut messages = Vec::new();
         loop {
             print!("用户: ");
@@ -65,6 +112,7 @@ fn main() {
         }
     } else if mode == "2" {
         // AI故事模式
+        println!("🚀 启动AI故事模式...");
         let project_dir = env!("CARGO_MANIFEST_DIR");
         let model_dir = PathBuf::from(project_dir).join("models").join("story");
         let llama = model::Llama::<f32>::from_safetensors(&model_dir);
