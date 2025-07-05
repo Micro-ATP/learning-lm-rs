@@ -53,12 +53,40 @@ fn check_gpu_status() {
         }
     }
     
-    #[cfg(not(target_os = "macos"))]
+    #[cfg(target_os = "windows")]
+    {
+        // 检查CUDA是否可用
+        if crate::gpu::cuda_backend::CudaBackend::is_available() {
+            println!("✅ CUDA GPU后端可用");
+            
+            // 尝试创建GPU上下文
+            match crate::gpu::GPUContext::new() {
+                Ok(_) => println!("✅ GPU上下文创建成功"),
+                Err(e) => println!("❌ GPU上下文创建失败: {}", e),
+            }
+            
+            // 获取CUDA设备信息
+            if let Ok(backend) = crate::gpu::cuda_backend::CudaBackend::new() {
+                if let Ok(info) = backend.get_device_info() {
+                    println!("✅ 检测到CUDA设备: {}", info);
+                }
+            }
+        } else {
+            println!("❌ CUDA GPU后端不可用");
+        }
+        
+        // 显示系统信息
+        println!("💻 系统信息:");
+        println!("   - 操作系统: {}", std::env::consts::OS);
+        println!("   - 架构: {}", std::env::consts::ARCH);
+    }
+    
+    #[cfg(not(any(target_os = "macos", target_os = "windows")))]
     {
         println!("💻 系统信息:");
         println!("   - 操作系统: {}", std::env::consts::OS);
         println!("   - 架构: {}", std::env::consts::ARCH);
-        println!("ℹ️  GPU加速: 当前平台不支持Metal，使用CPU推理");
+        println!("ℹ️  GPU加速: 当前平台不支持GPU加速，使用CPU推理");
     }
     
     println!();

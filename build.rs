@@ -35,6 +35,56 @@ fn main() {
         println!("cargo:rerun-if-changed=src/shaders.metal");
     }
     
+    #[cfg(target_os = "windows")]
+    {
+        // 检查CUDA工具链
+        let nvcc_output = std::process::Command::new("nvcc")
+            .arg("--version")
+            .output();
+        
+        match nvcc_output {
+            Ok(output) => {
+                println!("✅ 检测到CUDA工具链");
+                if let Ok(version) = String::from_utf8(output.stdout) {
+                    println!("   {}", version.lines().next().unwrap_or(""));
+                }
+                
+                // 编译CUDA shader
+                let shader_src = "src/shaders.cu";
+                let shader_lib = "src/shaders.ptx";
+                
+                let status = std::process::Command::new("nvcc")
+                    .args(&[
+                        "-ptx",
+                        "-o", shader_lib,
+                        shader_src,
+                        "-arch=sm_89", // RTX 4070 Ti Super使用Ada架构
+                        "-O3"
+                    ])
+                    .status();
+                
+                match status {
+                    Ok(exit_status) => {
+                        if exit_status.success() {
+                            println!("✅ CUDA shader编译成功");
+                        } else {
+                            println!("⚠️  CUDA shader编译失败，将使用CPU实现");
+                        }
+                    }
+                    Err(_) => {
+                        println!("⚠️  无法编译CUDA shader，将使用CPU实现");
+                    }
+                }
+                
+                println!("cargo:rerun-if-changed=src/shaders.cu");
+            }
+            Err(_) => {
+                println!("⚠️  未检测到CUDA工具链，将使用CPU实现");
+            }
+        }
+    }
+    
     println!("cargo:rerun-if-changed=src/gpu.rs");
     println!("cargo:rerun-if-changed=src/gpu/metal_backend.rs");
+    println!("cargo:rerun-if-changed=src/gpu/cuda_backend.rs");
 } 
