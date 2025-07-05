@@ -26,11 +26,15 @@ impl<T: Default + Copy> KVCache<T> {
     }
 
     pub fn k_cache(&mut self, layer: usize, start: usize) -> Tensor<T> {
-        self.k_cache[layer].slice(start * self.dim, &vec![self.length - start, self.dim])
+        let remaining_len = if self.length > start { self.length - start } else { 0 };
+        let actual_len = remaining_len.min(self.max_seq_len - start);
+        self.k_cache[layer].slice(start * self.dim, &vec![actual_len, self.dim])
     }
 
     pub fn v_cache(&mut self, layer: usize, start: usize) -> Tensor<T> {
-        self.v_cache[layer].slice(start * self.dim, &vec![self.length - start, self.dim])
+        let remaining_len = if self.length > start { self.length - start } else { 0 };
+        let actual_len = remaining_len.min(self.max_seq_len - start);
+        self.v_cache[layer].slice(start * self.dim, &vec![actual_len, self.dim])
     }
 
     pub fn increment(&mut self, seq_len: usize){

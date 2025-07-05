@@ -24,7 +24,6 @@ impl LLamaParams<f32> {
     pub fn from_safetensors(safetensor: &SafeTensors, config: &LlamaConfigJson) -> Self {
         let get_tensor = |name: &str| -> Tensor<f32> {
             let tensor = safetensor.tensor(name).unwrap();
-            
             // 根据数据类型正确读取数据
             let data: Vec<f32> = match tensor.dtype() {
                 safetensors::Dtype::F32 => {
@@ -33,11 +32,9 @@ impl LLamaParams<f32> {
                     f32_data.to_vec()
                 },
                 _ => {
-                    // 对于其他数据类型，使用原来的转换方式
                     tensor.data().iter().map(|&x| x as f32).collect()
                 }
             };
-            
             Tensor::new(data, &tensor.shape().iter().map(|&x| x as usize).collect())
         };
         
@@ -52,9 +49,26 @@ impl LLamaParams<f32> {
         let mut w_gate = Vec::new();
         let mut w_down = Vec::new();
         
-        // 加载lm_head，同时用作embedding table（权重共享）
+        // 加载embedding_table和lm_head，兼容Mistral和Llama
+        let embedding_table = if let Ok(tensor) = safetensor.tensor("model.embed_tokens.weight") {
+            // Mistral结构
+            let data: Vec<f32> = match tensor.dtype() {
+                safetensors::Dtype::F32 => {
+                    let raw_data = tensor.data();
+                    let f32_data: &[f32] = unsafe { std::slice::from_raw_parts(raw_data.as_ptr() as *const f32, raw_data.len() / 4) };
+                    f32_data.to_vec()
+                },
+                _ => {
+                    tensor.data().iter().map(|&x| x as f32).collect()
+                }
+            };
+            Tensor::new(data, &tensor.shape().iter().map(|&x| x as usize).collect())
+        } else {
+            // Llama结构，兼容tie_word_embeddings
+            let lm_head = get_tensor("lm_head.weight");
+            Tensor::new(lm_head.data().to_vec(), lm_head.shape())
+        };
         let lm_head = get_tensor("lm_head.weight");
-        let embedding_table = Tensor::new(lm_head.data().to_vec(), lm_head.shape());
         
         // 加载各层的参数
         for layer in 0..n_layers {

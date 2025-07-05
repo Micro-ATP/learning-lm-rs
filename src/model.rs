@@ -2,12 +2,14 @@ use std::fs::File;
 use std::vec;
 
 use crate::config::LlamaConfigJson;
+use crate::gpu::{GPUContext, GPUBackend};
 use crate::kvcache::KVCache;
 use crate::operators as OP;
 use crate::params::LLamaParams;
 use crate::tensor::Tensor;
 use safetensors::SafeTensors;
 use std::path::Path;
+
 pub struct Llama<T> {
     vocab: usize,           // vocab size
     n_layers: usize,        // number of layers
@@ -22,6 +24,8 @@ pub struct Llama<T> {
     params: LLamaParams<T>, // trained weights of this model
     bos_token_id: u32,      // start token id
     eos_token_id: u32,      // end token id
+    model_type: String,     // model type: "llama" or "mistral"
+    gpu_context: Option<GPUContext>, // GPU上下文
 }
 
 impl Llama<f32> {
@@ -31,6 +35,13 @@ impl Llama<f32> {
         let model_file = std::fs::read(model_dir.as_ref().join("model.safetensors")).unwrap();
         let safetensor = SafeTensors::deserialize(&model_file).unwrap();
         let params = LLamaParams::from_safetensors(&safetensor, &config);
+
+        // 检测模型类型
+        let model_type = if config.model_type == "mistral" {
+            "mistral"
+        } else {
+            "llama"
+        };
 
         Self {
             vocab: config.vocab_size,
@@ -46,6 +57,8 @@ impl Llama<f32> {
             params: params,
             bos_token_id: config.bos_token_id,
             eos_token_id: config.eos_token_id,
+            model_type: model_type.to_string(),
+            gpu_context: None,
         }
     }
 
@@ -101,26 +114,71 @@ impl Llama<f32> {
             let full_k = &mut cache.k_cache(layer, 0); // (total_seq, n_kv_h * dqkv)
             let full_v = &mut cache.v_cache(layer, 0); // (total_seq, n_kv_h * dqkv)
 
-            todo!("self_attention(...)");
-            todo!("down_proj matmul and add residual");
+            self_attention(
+                &mut hidden_states,
+                &mut att_scores,
+                &q,
+                &full_k,
+                &full_v,
+                self.n_kv_h,
+                n_groups,
+                seq_len,
+                total_seq_len,
+                self.dqkv,
+            );
 
-            todo!("mlp(...)");
+            // 输出投影: out = attn_V @ O_weight.T
+            let mut out_proj = Tensor::<f32>::default(&vec![seq_len, self.d]);
+            OP::matmul_transb(&mut out_proj, 0., &hidden_states, &self.params.wo[layer], 1.0);
+            
+            // 残差连接: residual = out + residual
+            let out_data = out_proj.data();
+            let residual_data = unsafe { residual.data_mut() };
+            for i in 0..out_proj.size() {
+                residual_data[i] += out_data[i];
+            }
+
+            // MLP层
+            mlp(
+                &mut residual,
+                &mut hidden_states,
+                &mut gate_buf,
+                &mut up_buf,
+                &self.params.w_up[layer],
+                &self.params.w_down[layer],
+                &self.params.w_gate[layer],
+                &self.params.rms_ffn_w[layer],
+                self.eps,
+            );
         }
 
         // No matter what seq_len, the output is always a 1D vector of length vocab,
         // which contains the probabilities for the next token.
         let mut logits = Tensor::<f32>::default(&vec![1, self.vocab]);
-        let mut hidden_states = hidden_states.slice((seq_len - 1) * self.d, &vec![1, self.d]);
-        let residual = residual.slice((seq_len - 1) * self.d, &vec![self.d]);
+        
+        // 重新创建hidden_states和residual张量，避免slice问题
+        let mut final_hidden = Tensor::<f32>::default(&vec![1, self.d]);
+        let mut final_residual = Tensor::<f32>::default(&vec![1, self.d]);
+        
+        // 复制最后一个token的hidden_states和residual
+        let hidden_data = hidden_states.data();
+        let residual_data = residual.data();
+        let final_hidden_data = unsafe { final_hidden.data_mut() };
+        let final_residual_data = unsafe { final_residual.data_mut() };
+        
+        for i in 0..self.d {
+            final_hidden_data[i] = hidden_data[(seq_len - 1) * self.d + i];
+            final_residual_data[i] = residual_data[(seq_len - 1) * self.d + i];
+        }
 
         OP::rms_norm(
-            &mut hidden_states,
-            &residual,
+            &mut final_hidden,
+            &final_residual,
             &self.params.rms_out_w,
             self.eps,
         );
 
-        OP::matmul_transb(&mut logits, 0., &hidden_states, &self.params.lm_head, 1.0);
+        OP::matmul_transb(&mut logits, 0., &final_hidden, &self.params.lm_head, 1.0);
 
         logits
     }
@@ -132,12 +190,78 @@ impl Llama<f32> {
         top_p: f32,
         top_k: u32,
         temperature: f32,
-    ) -> Vec<u32>{
-        let mut result = Vec::<u32>::new();
-        
-        todo!("实现文本生成");
+    ) -> Vec<u32> {
+        let mut result = token_ids.to_vec();
+        let mut cache = self.new_cache();
+        let mut input_ids = token_ids.to_vec();
+
+        for _ in 0..max_len {
+            if result.len() >= self.max_seq_len {
+                break;
+            }
+            let input_tensor = Tensor::new(input_ids.clone(), &vec![input_ids.len()]);
+            let logits = self.forward(&input_tensor, &mut cache);
+            let next_token = OP::random_sample(&logits, top_p, top_k, temperature);
+            result.push(next_token);
+            if next_token == self.eos_token_id {
+                break;
+            }
+            input_ids = vec![next_token]; // 只输入最新token
+        }
         
         result
+    }
+
+    pub fn chat(
+        &self,
+        messages: &[ChatMessage],
+        max_len: usize,
+        top_p: f32,
+        top_k: u32,
+        temperature: f32,
+    ) -> String {
+        // 构建对话模板
+        let mut prompt = String::new();
+        
+        // 添加所有历史消息
+        for message in messages {
+            prompt.push_str(&format!("<|im_start|>{}\n{}\n<|im_end|>\n", 
+                message.role, message.content));
+        }
+        
+        // 添加assistant的起始标记
+        prompt.push_str("<|im_start|>assistant\n");
+        
+        // 根据模型类型选择tokenizer路径
+        let tokenizer_path = if self.model_type == "mistral" {
+            std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("models")
+                .join("chat")
+                .join("tokenizer.json")
+        } else {
+            std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("models")
+                .join("story")
+                .join("tokenizer.json")
+        };
+        
+        // 编码输入
+        let binding = tokenizers::Tokenizer::from_file(tokenizer_path).unwrap();
+        let encoding = binding.encode(&*prompt, true).unwrap();
+        let input_ids = encoding.get_ids();
+        
+        // 生成回复
+        let output_ids = self.generate(
+            input_ids,
+            max_len,
+            top_p,
+            top_k,
+            temperature,
+        );
+        
+        // 解码生成的内容（只解码新生成的部分）
+        let generated_ids = &output_ids[input_ids.len()..];
+        binding.decode(generated_ids, true).unwrap()
     }
 }
 
@@ -153,7 +277,81 @@ fn self_attention(
     total_seq_len: usize,
     dqkv: usize,
 ) {
-    todo!("Implement self_attention");
+    // 1. 计算注意力分数: score = Q @ K.T / sqrt(dim)
+    // 对于每个KV头，计算对应的Q头组的注意力分数
+    let q_data = q.data();
+    let k_data = k.data();
+    let v_data = v.data();
+    let att_scores_data = unsafe { att_scores.data_mut() };
+    
+    // 计算缩放因子
+    let scale = (dqkv as f32).sqrt();
+    
+    // 对每个KV头计算注意力分数
+    for kv_head in 0..n_kv_h {
+        for group in 0..n_groups {
+            let q_head = kv_head * n_groups + group;
+            
+            // 对每个序列位置计算注意力分数
+            for seq_pos in 0..seq_len {
+                for total_pos in 0..total_seq_len {
+                    let mut score = 0.0;
+                    
+                    // 计算Q和K的点积
+                    for dim in 0..dqkv {
+                        let q_idx = seq_pos * n_kv_h * n_groups * dqkv + q_head * dqkv + dim;
+                        let k_idx = total_pos * n_kv_h * dqkv + kv_head * dqkv + dim;
+                        score += q_data[q_idx] * k_data[k_idx];
+                    }
+                    
+                    // 应用缩放
+                    score /= scale;
+                    
+                    // 存储注意力分数
+                    let att_idx = kv_head * n_groups * seq_len * total_seq_len 
+                                + group * seq_len * total_seq_len 
+                                + seq_pos * total_seq_len 
+                                + total_pos;
+                    att_scores_data[att_idx] = score;
+                }
+            }
+        }
+    }
+    
+    // 2. 应用softmax
+    OP::masked_softmax(att_scores);
+    
+    // 3. 计算注意力输出: attn_V = attn @ V
+    let attn_v_data = unsafe { hidden_states.data_mut() };
+    let att_scores_data = att_scores.data(); // 重新获取不可变引用
+    
+    // 对每个KV头计算注意力输出
+    for kv_head in 0..n_kv_h {
+        for group in 0..n_groups {
+            let q_head = kv_head * n_groups + group;
+            
+            // 对每个序列位置计算输出
+            for seq_pos in 0..seq_len {
+                for dim in 0..dqkv {
+                    let mut output = 0.0;
+                    
+                    // 对每个总序列位置计算加权和
+                    for total_pos in 0..total_seq_len {
+                        let att_idx = kv_head * n_groups * seq_len * total_seq_len 
+                                    + group * seq_len * total_seq_len 
+                                    + seq_pos * total_seq_len 
+                                    + total_pos;
+                        let v_idx = total_pos * n_kv_h * dqkv + kv_head * dqkv + dim;
+                        output += att_scores_data[att_idx] * v_data[v_idx];
+                    }
+                    
+                    // 存储输出
+                    let out_idx = seq_pos * n_kv_h * n_groups * dqkv + q_head * dqkv + dim;
+                    attn_v_data[out_idx] = output;
+                }
+            }
+        }
+    }
 }
 
 fn mlp(
@@ -254,4 +452,20 @@ pub fn test_load_safetensors() {
     assert!(float_eq(&model.params.wv[0].data()[100], &0.041015625, 1e-6));
     assert!(float_eq(&model.params.wo[0].data()[100], &0.01965332, 1e-6));
 
+}
+
+// 聊天消息结构
+#[derive(Debug)]
+pub struct ChatMessage {
+    pub role: String,
+    pub content: String,
+}
+
+impl ChatMessage {
+    pub fn new(role: &str, content: &str) -> Self {
+        ChatMessage {
+            role: role.to_string(),
+            content: content.to_string(),
+        }
+    }
 }
